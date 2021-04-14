@@ -31,7 +31,12 @@ var helloList = []string{
 
 //Here, we're declaring a function. When your code runs, Go automatically calls main to get things started:
 func main() {
+
+	// hi := 2123  It tells the compiler to go ahead and assign that value to my variable and select t
+	// he appropriate type for that value.
 	fmt.Println(time.Now())
+
+	//Generates same random numbers anytime you run this program
 	fmt.Println(rand.Intn(30))
 	fmt.Println(rand.Intn(30))
 	fmt.Println(rand.Intn(30))
@@ -44,6 +49,7 @@ func main() {
 	//https://flaviocopes.com/go-random/
 	rand.Seed(time.Now().UnixNano())
 
+	//Generates different numbers since this rand has been seeded
 	fmt.Println(rand.Intn(30))
 	fmt.Println(rand.Intn(30))
 	fmt.Println(rand.Intn(30))
@@ -51,15 +57,21 @@ func main() {
 	fmt.Println(rand.Intn(30))
 
 	// Generate a random number in the range of out list
+	// This function gives us a random number between 0 and n(the number passed in), minus the number you pass in
 	index := rand.Intn(len(helloList))
+
+	fmt.Println("The integer is ", index)
 
 	// Call a function and receive multiple return values
 	msg, err := hello(index)
 
 	// Handle any errors
 	if err != nil {
+
+		//Logs an erro message and kills the app
 		log.Fatal(err)
 	}
+	// log.Fatal(errors.New("I had an error"))
 	// Print our message to the console
 	fmt.Println(msg)
 }
@@ -69,5 +81,6 @@ func hello(index int) (string, error) {
 		// Create an error, convert the int type to a string
 		return "", errors.New("out of range: " + strconv.Itoa(index))
 	}
+	//In Go, nil represents something with no value and no type:
 	return helloList[index], nil
 }
