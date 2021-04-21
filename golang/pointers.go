@@ -60,4 +60,48 @@ func main() {
 		}
 	*/
 
+	add5Value(countTemp)
+	fmt.Printf("Original countTemp: %#v\n", countTemp)
+
+	//Turn a  non pointer to a pointer using the "&"
+	// The & sign reports the address of the variable
+	add5Point(&countTemp)
+
+	fmt.Printf("Second Original countTemp: %#v\n", countTemp)
+
+	a, b := 5, 10
+
+	swap(&a, &b)
+	fmt.Println(a == 10, b == 5)
+
+	// add5Point(count1)
+
+	// fmt.Printf(" Original count1: %#v\n", count1)
+}
+
+//creating a function that accepts a pointer and the one that does not
+
+func add5Value(count int) {
+	count += 5
+	fmt.Println("add5Value   :", count)
+}
+
+func add5Point(count *int) {
+	if count != nil {
+		*count += 5
+	} else {
+		init := 5
+		count = &init
+		// fmt.Println("Added")
+	}
+
+	fmt.Println("add5Point:", *count)
+}
+
+func swap(a *int, b *int) {
+	// swap the values here
+	*a, *b = *b, *a
+
+	// *a = *b
+	// *b = *a
 }
