@@ -25,6 +25,7 @@ func main() {
 
 	rangeLoop()
 	maxCountWord()
+	bobbleSort()
 }
 
 func validate(input int) error {
@@ -107,4 +108,28 @@ func maxCountWord() {
 	}
 
 	fmt.Println("Most popular word: ", maxCountPair.name, " \n With a count of  :", maxCountPair.count)
+}
+
+// Activity 2.03: Bubble Sort
+
+func bobbleSort() {
+	// var num []int;
+
+	nums := []int{5, 8, 2, 4, 0, 1, 3, 7, 9, 6}
+
+	//Print slice before sorting
+	fmt.Println("Before : ", nums)
+
+	for swapped := true; swapped; {
+		swapped = false
+		for i := 1; i < len(nums); i++ {
+			if nums[i-1] > nums[i] {
+				nums[i], nums[i-1] = nums[i-1], nums[i]
+				swapped = true
+			}
+		}
+	}
+
+	fmt.Println("After : ", nums)
+
 }
