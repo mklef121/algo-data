@@ -95,12 +95,14 @@ func maxCountWord() {
 	}
 	var maxCountPair Largest
 	// maxCountPair = {Number: 2, Text:"fool"}
-	for name, count := range words {
+	for name, countInt := range words {
 		//if it is empty, set the first guy
 		if (Largest{}) == maxCountPair {
-			maxCountPair = Largest{count, name}
-		} else if count > maxCountPair.count {
-			maxCountPair = Largest{count, name}
+			//assigning value to a struct same way it's done in javascript
+			maxCountPair = Largest{name: name, count: countInt}
+		} else if countInt > maxCountPair.count {
+			//asigning value to a struct using the index place.
+			maxCountPair = Largest{countInt, name}
 		}
 	}
 
