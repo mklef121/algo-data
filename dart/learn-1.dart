@@ -30,7 +30,8 @@ void main() {
   // int two;
   description = 'Feijoada!';
   int lineCount2;
-  if (true) {
+  bool? hi;
+  if (hi != null) {
     lineCount2 = 3;
   } else {
     lineCount2 = 0;
