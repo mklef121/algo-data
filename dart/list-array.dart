@@ -1,4 +1,4 @@
-List<int> list = [1, 2, 3];
+List<int> list = [1, 2, 3]; //returns a List Class
 // assert(list.length == 3);
 // assert(list[1] == 2);
 
@@ -24,7 +24,10 @@ var listOfStrings = ['#0', for (var i in listOfInts) '#$i'];
 // assert(listOfStrings[1] == '#1');
 
 main(List<String> args) {
-  print(list);
+  var list34 = list;
+  list34[0] = 56;
+  print("List One is $list");
+  print("List 34 copied is $list34");
   print(list2);
   print(list4);
   print(nav);
@@ -35,3 +38,14 @@ abstract class Cache<T> {
   T getByKey(String key);
   void setByKey(String key, T value);
 }
+
+enum Size { small, medium, large }
+
+T stringToEnum<T>(String str, Iterable<T> values) {
+  return values.firstWhere(
+    (value) => value.toString().split('.')[1] == str,
+    // orElse: () => null,
+  );
+}
+
+Size size = stringToEnum<Size>("medium", Size.values);

@@ -1,5 +1,3 @@
-import '../BigO/O(1).dart';
-
 /// ##### Question: Given two arrays, create a function that lets a user compare if each array has a common Item.
 ///
 /// Follow the rule that is on the cheat sheet
@@ -44,6 +42,7 @@ bool arraCompare(List<dynamic> arrA, List<dynamic> arrB) {
 
 bool arrayCompare2(List<String> arrA, List<String> arrB) {
   var loadMap = Map<String, bool>();
+  //this is array reduce in dart
   var newMap = arrA.fold(loadMap, (previousValue, element) {
     // print(previousValue);
     // print(element);
