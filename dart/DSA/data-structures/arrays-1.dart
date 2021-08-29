@@ -5,8 +5,10 @@ List<String> test = ["she", "he", "her"];
 
 main(List<String> args) {
   unshift<String>(test, "hero");
-  slice(test, 4, 5);
-  print(test);
+  var newSlice = slice(test, 1, 2);
+  print(newSlice);
+
+  print(strReverse("Miracle"));
 }
 
 int unshift<T>(List<T> list, [element]) {
@@ -29,8 +31,12 @@ T shift<T>(List<T> list) {
 }
 
 List<T> slice<T>(List<T> list, int start, [int? end]) {
-  end = end == null ? list.length : end;
+  end = end == null || end >= list.length ? list.length - 1 : end;
   return list.sublist(start, end);
+}
+
+String strReverse(String str) {
+  return str.split("").reversed.join("");
 }
 
 //unshift()
