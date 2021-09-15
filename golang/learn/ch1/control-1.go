@@ -23,4 +23,20 @@ func main() {
 	for i, v := range aSlice {
 		fmt.Println("index:", i, "value: ", v)
 	}
+
+	getName()
+}
+
+// Getting user input
+/**
+The fmt.Scanln() function can help you read user input while the program is already
+running and store it to a string variable.
+**/
+
+func getName() {
+	// Get User Input
+	fmt.Printf("Please give me your name: ")
+	var name string
+	fmt.Scanln(&name)
+	fmt.Println("Your name is", name)
 }
