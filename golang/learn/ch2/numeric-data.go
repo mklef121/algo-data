@@ -15,6 +15,8 @@ float64 ->> 64-bit floating-point number
 complex64 ->> Complex number with float32 parts
 Complex128 ->> Complex number with float64 parts
 */
+
+//The int, uint, and uintptr types are usually 32 bits wide on 32-bit systems and 64 bits wide on 64-bit systems.
 package main
 
 import "fmt"
