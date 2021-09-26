@@ -41,6 +41,7 @@ func main() {
 	// The unicode package
 	//The unicode standard Go package contains various handy functions for working with Unicode code points
 	const sL = "\x99\x00ab\x50\x00\x23\x50\x29\x9c"
+
 	fmt.Println("\x77\x00ab\x50", "Im the shit")
 	for i := 0; i < len(sL); i++ {
 		if unicode.IsPrint(rune(sL[i])) {
@@ -50,6 +51,9 @@ func main() {
 		}
 	}
 
+	const uni_cide = "\xF0\x9F\x91\x8F"
+
+	fmt.Println(uni_cide, "The unicode")
 	// /The strings package
 	// The strings standard Go package allows you to manipulate UTF-8 strings in Go
 }
