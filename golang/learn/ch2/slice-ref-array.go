@@ -3,6 +3,8 @@ package main
 import "fmt"
 
 func main() {
+	b := []byte("Byte slice €")
+	fmt.Println(b, len(b))
 	a := [4]string{"Zero", "One", "Two", "Three"}
 	fmt.Println("a:", a)
 
