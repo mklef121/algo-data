@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"math/rand"
 	"os"
@@ -11,10 +12,13 @@ import (
 )
 
 type Entry struct {
-	Name    string
-	Surname string
-	Tel     string
+	Name       string
+	Surname    string
+	Tel        string
+	LastAccess string
 }
+
+const CSVFILE string = "/Users/miraclenwabueze/Documents/software-project/person/algo-data/golang/learn/projects/phone-csv.data"
 
 var data = []Entry{}
 
@@ -30,12 +34,12 @@ func main() {
 		// The argument is like /var/folders/vj/xsf0z1495_915__5r226_phh0000gp/T/go-build2798432677/b001/exe/phonebook
 		// So Base funtion gives us the last member which is phonebook
 		exe := path.Base(arguments[0])
-		fmt.Printf("Usage: %s search|list <arguments>\n", exe)
+		fmt.Println("Usage: insert|delete|search|list <arguments>", exe)
 		return
 	}
 
-	if inArray(arguments[1], []string{"search", "list"}) == -1 {
-		fmt.Println("Passed argument muse be `search` or `list`")
+	if inArray(arguments[1], []string{"search", "list", "delete", "insert"}) == -1 {
+		fmt.Println("Passed argument muse be `search`, `list`, `delete`,`insert`")
 		return
 	}
 
@@ -132,4 +136,56 @@ func populate(count int, data []Entry) []Entry {
 	}
 	// fmt.Println(data, "fool")
 	return data
+}
+
+//CH3
+
+func readCSVFile(filepath string) ([][]string, error) {
+	_, err := os.Stat(filepath)
+	if err != nil {
+
+		fmt.Println("File does not exist")
+		return nil, err
+	}
+
+	file, err := os.Open(filepath)
+
+	if err != nil {
+		fmt.Println("Cannot read file. Reason: ", err)
+		return nil, err
+	}
+
+	defer file.Close()
+
+	records, err := csv.NewReader(file).ReadAll()
+
+	if err != nil {
+		fmt.Println("Error reading CSV file with CSV reader. Reason: ", err)
+		return [][]string{}, nil
+	}
+
+	return records, nil
+}
+
+func saveCSVFile(filepath string) error {
+
+	csvfile, err := os.Create(filepath)
+
+	if err != nil {
+		fmt.Println("Could not create file")
+
+		return err
+	}
+	defer csvfile.Close()
+
+	csvwriter := csv.NewWriter(csvfile)
+	// Changing the default field delimiter to tab
+	csvwriter.Comma = '\t'
+	for _, row := range data {
+		temp := []string{row.Name, row.Surname, row.Tel, row.LastAccess}
+		_ = csvwriter.Write(temp)
+	}
+	csvwriter.Flush()
+	return nil
+
 }
