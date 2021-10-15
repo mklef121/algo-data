@@ -19,6 +19,12 @@ func main() {
 	aMap = nil
 
 	fmt.Println("a nil aMap:", aMap)
+	var sharpMap map[string]string = make(map[string]string)
+
+	sharpMap["pall"] = "hello"
+	val, exists := sharpMap["hdh"]
+
+	fmt.Println("kai", val, exists, sharpMap)
 
 	// This will fail
 	// aMap["test"] = 1
