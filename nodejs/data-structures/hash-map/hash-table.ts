@@ -1,5 +1,5 @@
 class HashTable {
-    data
+    data: any[]
     constructor(size: number){
         this.data = new Array(size)
     }
@@ -21,7 +21,6 @@ class HashTable {
         if (!this.data[address])  this.data[address] = []
 
         this.data[address].push([key, value])
-        console.log(this.data);
     }
 
     get(key: string){
@@ -37,6 +36,28 @@ class HashTable {
 
         return
     }
+
+    keys() {
+        if (!this.data.length) {
+          return undefined
+        }
+        let result = []
+        // loop through all the elements
+        for (let i = 0; i < this.data.length; i++) {
+            // if it's not an empty memory cell
+            if (this.data[i] && this.data[i].length) {
+              // but also loop through all the potential collisions
+              if (this.data.length > 1) {
+                for (let j = 0; j < this.data[i].length; j++) {
+                  result.push(this.data[i][j][0])
+                }
+              } else {
+                result.push(this.data[i][0])
+              } 
+            }
+        }
+        return result; 
+      }
 }
 
 const hash = new HashTable(2);
@@ -45,3 +66,5 @@ hash.set("grapes", 1000)
 hash.set("apples", 1000)
 
 console.log(hash.get('grapes'));
+
+console.log(hash.keys())
