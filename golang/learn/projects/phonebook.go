@@ -2,12 +2,15 @@ package main
 
 import (
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
 	"path"
 	"reflect"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -18,12 +21,16 @@ type Entry struct {
 	LastAccess string
 }
 
-const CSVFILE string = "/Users/miraclenwabueze/Documents/software-project/person/algo-data/golang/learn/projects/phone-csv.data"
+const CSVFILE string = "/Users/miraclenwabueze/Documents/software-project/person/algo-data/golang/learn/projects/phone-csv.csv"
 
 var data = []Entry{}
 
+//An index used to map phone numbers to the index of the phonebook slice
+var index map[string]int
+
 var MIN = 97
 var MAX = 122
+var CSV_DELIMETER = '\t'
 
 func main() {
 	arguments := os.Args
@@ -43,53 +50,179 @@ func main() {
 		return
 	}
 
-	// data = append(data, Entry{"Mihalis", "Tsoukalos", "2109416471"})
-	// data = append(data, Entry{"Mary", "Doe", "2109416871"})
-	// data = append(data, Entry{"John", "Black", "2109416123"})
+	if createCSV() != nil {
+		return
+	}
 
-	SEED := time.Now().Unix()
-	rand.Seed(SEED)
-
-	data = populate(100, data)
+	// The contents of CSVFILE are kept in the data global variable that is defined as []Entry{},
+	if err := readCSVFile(CSVFILE); err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := createIndex(); err != nil {
+		fmt.Println("Cannot create index.")
+		return
+	}
 
 	// fmt.Println(data, "hia")
 	switch arguments[1] {
+	case "insert":
+		if len(arguments) != 5 {
+			fmt.Println("Usage: insert Name Surname Telephone")
+			return
+		}
+		t := strings.ReplaceAll(arguments[4], "-", "")
+		if !matchTel(t) {
+			fmt.Println("Not a valid telephone number:", t)
+			return
+		}
+		temp := initS(arguments[2], arguments[3], t)
 
+		if temp != nil {
+			err := insert(temp)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		}
+	case "delete":
+		if len(arguments) != 3 {
+			fmt.Println("Usage: delete Number")
+			return
+		}
+		t := strings.ReplaceAll(arguments[2], "-", "")
+		if !matchTel(t) {
+			fmt.Println("Not a valid telephone number:", t)
+			return
+		}
+		err := deleteEntry(t)
+
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "search":
 		if len(arguments) != 3 {
-			fmt.Println("Usage: search Telephone")
+			fmt.Println("Usage: search Number")
 			return
 		}
-		result := search(arguments[2])
-
-		if result == nil {
-			fmt.Println("Entry not found for:", arguments[2])
+		t := strings.ReplaceAll(arguments[2], "-", "")
+		if !matchTel(t) {
+			fmt.Println("Not a valid telephone number:", t)
 			return
 		}
 
-		fmt.Println(*result)
-
+		temp := search(t)
+		if temp == nil {
+			fmt.Println("Number not found:", t)
+			return
+		}
+		fmt.Println(*temp)
 	case "list":
 		list()
+	default:
+		fmt.Println("Not a valid option")
 	}
 }
 
-func search(key string) *Entry {
+func initS(name, surname, tel string) *Entry {
+	if name == "" || surname == "" {
+		return nil
+	}
 
-	for _, person := range data {
+	//convert time to string
+	LastAccess := strconv.FormatInt(time.Now().Unix(), 10)
+	return &Entry{Name: name, Surname: surname, Tel: tel, LastAccess: LastAccess}
+}
 
-		if person.Tel == key {
-			return &person
+func insert(phone *Entry) error {
+	_, ok := index[(*phone).Tel]
+	if ok {
+		return fmt.Errorf("%s already exists", phone.Tel)
+	}
+
+	data = append(data, *phone)
+
+	// Update the index
+	createIndex()
+	err := saveCSVFile(CSVFILE)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func deleteEntry(tel string) error {
+	val, ok := index[tel]
+
+	if !ok {
+		return fmt.Errorf("%s cannot be found!", tel)
+	}
+
+	//if element is last in the queue
+	if val == (len(data) - 1) {
+		data = data[:val]
+	} else {
+		data = append(data[:val], data[(val+1):]...)
+
+	}
+
+	delete(index, tel)
+
+	err := saveCSVFile(CSVFILE)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func createCSV() error {
+	// If the CSVFILE does not exist, create an empty one
+	fileInfo, err := os.Stat(CSVFILE)
+
+	if err != nil {
+		fmt.Println("Creating file ", CSVFILE)
+
+		f, err := os.Create(CSVFILE)
+		defer f.Close()
+
+		if err != nil {
+			fmt.Println("error creating file", err)
+
+			return err
 		}
+
+		return nil
+
+	} else if mode := fileInfo.Mode(); !mode.IsRegular() {
+		fmt.Println(CSVFILE, " not a regular file!")
+		return errors.New("Input file is not a regular file")
 	}
 
 	return nil
+}
+
+func search(key string) *Entry {
+	val, ok := index[key]
+
+	if !ok {
+		return nil
+	}
+
+	data[val].LastAccess = strconv.FormatInt(time.Now().Unix(), 10)
+
+	return &data[val]
 }
 
 func list() {
 	for _, v := range data {
 		fmt.Println(v)
 	}
+}
+func matchTel(s string) bool {
+	t := []byte(s)
+	re := regexp.MustCompile(`\d+$`)
+	return re.Match(t)
 }
 
 func inArray(val interface{}, array interface{}) (index int) {
@@ -126,6 +259,9 @@ func getString(len int64) string {
 }
 
 func populate(count int, data []Entry) []Entry {
+	SEED := time.Now().Unix()
+	rand.Seed(SEED)
+
 	for i := 0; i < count; i++ {
 		name := getString(4)
 		surname := getString(5)
@@ -140,19 +276,19 @@ func populate(count int, data []Entry) []Entry {
 
 //CH3
 
-func readCSVFile(filepath string) ([][]string, error) {
+func readCSVFile(filepath string) error {
 	_, err := os.Stat(filepath)
 	if err != nil {
 
 		fmt.Println("File does not exist")
-		return nil, err
+		return err
 	}
 
 	file, err := os.Open(filepath)
 
 	if err != nil {
 		fmt.Println("Cannot read file. Reason: ", err)
-		return nil, err
+		return err
 	}
 
 	defer file.Close()
@@ -161,10 +297,23 @@ func readCSVFile(filepath string) ([][]string, error) {
 
 	if err != nil {
 		fmt.Println("Error reading CSV file with CSV reader. Reason: ", err)
-		return [][]string{}, nil
+		return nil
 	}
 
-	return records, nil
+	for _, line := range records {
+		items := strings.Split(line[0], string(CSV_DELIMETER))
+		// fmt.Println(line, len(line), cap(line), line[0], items)
+		temp := Entry{
+			Name:       items[0],
+			Surname:    items[1],
+			Tel:        items[2],
+			LastAccess: items[3],
+		}
+		// Storing to global variable
+		data = append(data, temp)
+	}
+
+	return nil
 }
 
 func saveCSVFile(filepath string) error {
@@ -180,7 +329,7 @@ func saveCSVFile(filepath string) error {
 
 	csvwriter := csv.NewWriter(csvfile)
 	// Changing the default field delimiter to tab
-	csvwriter.Comma = '\t'
+	csvwriter.Comma = CSV_DELIMETER
 	for _, row := range data {
 		temp := []string{row.Name, row.Surname, row.Tel, row.LastAccess}
 		_ = csvwriter.Write(temp)
@@ -188,4 +337,13 @@ func saveCSVFile(filepath string) error {
 	csvwriter.Flush()
 	return nil
 
+}
+
+func createIndex() error {
+	index = make(map[string]int)
+	for i, k := range data {
+		key := k.Tel
+		index[key] = i
+	}
+	return nil
 }
