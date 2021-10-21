@@ -82,7 +82,8 @@ The Big O will be O( m + n); this is because of the rule. We must take inputs di
 In a function, there may be two or more occurences of several Big O types. But its good to note the level at which
 the complexities of Big O increases which are 
  * O(1) Constant- no loops
- * O(log N) Logarithmic- usually searching algorithms have log n if they are sorted (Binary Search) O(n) Linear- for loops, while loops through n items
+ * O(log N) Logarithmic- usually searching algorithms have log n if they are sorted (Binary Search) 
+ * O(n) Linear- for loops, while loops through n items
  * O(n log(n)) Log Liniear- usually sorting operations
  * O(n^2) Quadratic- every element in a collection needs to be compared to ever other element. Two nested loops
  * O(2^n) Exponential- recursive algorithms that solves a problem of size N
