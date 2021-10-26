@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-node": "ts-node ./data-structures/hash-map/hash-table.ts"
+    "ts-node": "ts-node ./data-structures/linked-list/doubly-linked-list.ts"
   },
   "repository": {
     "type": "git",
