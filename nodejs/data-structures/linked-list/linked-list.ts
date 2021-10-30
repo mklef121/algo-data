@@ -15,7 +15,6 @@ export default class LinkedList{
     append(value: any){
         let newNode = new LinkNode(value)
         // On the first iteration, this is equivalent to this.head.next, thus creates the contigous chain
-
         this.tail.setNext(newNode);
         this.tail = newNode;
 
