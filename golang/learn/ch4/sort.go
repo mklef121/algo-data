@@ -40,7 +40,7 @@ func main() {
 	data := []S2{
 		S2{1, "One", S1{1, "S1_1", 10}},
 		S2{2, "Two", S1{2, "S1_1", 20}},
-		S2{-1, "Two", S1{-1, "S1_1", -20}},
+		S2{5, "Two", S1{-1, "S1_1", -20}},
 	}
 
 	fmt.Println("Before:", data)
