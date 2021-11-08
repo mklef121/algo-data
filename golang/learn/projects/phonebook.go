@@ -9,6 +9,7 @@ import (
 	"path"
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -21,9 +22,27 @@ type Entry struct {
 	LastAccess string
 }
 
-const CSVFILE string = "/Users/miraclenwabueze/Documents/software-project/person/algo-data/golang/learn/projects/phone-csv.csv"
+var CSVFILE string = "/Users/m.nwabueze/Documents/software-projects/person/algo-data/golang/learn/projects/phone-csv.csv"
 
-var data = []Entry{}
+type PhoneBook []Entry
+
+var data = PhoneBook{}
+
+func (a PhoneBook) Len() int {
+	return len(a)
+}
+
+func (a PhoneBook) Less(i, j int) bool {
+	if a[i].Surname == a[j].Surname {
+		return a[i].Name < a[j].Name
+	}
+
+	return a[i].Surname < a[j].Surname
+}
+
+func (a PhoneBook) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
+}
 
 //An index used to map phone numbers to the index of the phonebook slice
 var index map[string]int
@@ -50,7 +69,7 @@ func main() {
 		return
 	}
 
-	if createCSV() != nil {
+	if setCSVFILE() != nil {
 		return
 	}
 
@@ -124,6 +143,34 @@ func main() {
 	}
 }
 
+//run export PHONEBOOK="/tmp/csv.file"
+func setCSVFILE() error {
+	filepath := os.Getenv("PHONEBOOK")
+	if filepath != "" {
+		CSVFILE = filepath
+	}
+
+	_, err := os.Stat(CSVFILE)
+	if err != nil {
+		fmt.Println("Creating ", CSVFILE, "...")
+		f, err := os.Create(CSVFILE)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		return nil
+	}
+
+	fileInfo, err := os.Stat(CSVFILE)
+	mode := fileInfo.Mode()
+	if !mode.IsRegular() {
+		return fmt.Errorf("%s not a regular file", CSVFILE)
+	}
+
+	return nil
+}
+
 func initS(name, surname, tel string) *Entry {
 	if name == "" || surname == "" {
 		return nil
@@ -176,6 +223,7 @@ func deleteEntry(tel string) error {
 	return nil
 }
 
+//The version I was using before without environmental variable
 func createCSV() error {
 	// If the CSVFILE does not exist, create an empty one
 	fileInfo, err := os.Stat(CSVFILE)
@@ -215,6 +263,7 @@ func search(key string) *Entry {
 }
 
 func list() {
+	sort.Sort(PhoneBook(data))
 	for _, v := range data {
 		fmt.Println(v)
 	}
