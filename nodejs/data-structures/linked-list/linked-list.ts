@@ -112,14 +112,23 @@ export default class LinkedList{
 }
 
 
-class LinkNode{
+export class LinkNode{
    private next?:LinkNode 
+   private behind?:LinkNode 
 
     constructor(private value: any){
     }
 
     setNext(nxt:LinkNode ){
         this.next = nxt;
+    }
+
+    setBehind(bh: LinkNode){
+        this.behind = bh
+    }
+
+    getBehind(){
+        return this.behind;
     }
 
     getValue(){
@@ -129,16 +138,17 @@ class LinkNode{
     getNext(){
         return this.next
     }
+    
 }
 
-let link =  new LinkedList("7748");
-link.append("4")
-link.append(5)
-link.append(56).prepend("566")
+// let link =  new LinkedList("7748");
+// link.append("4")
+// link.append(5)
+// link.append(56).prepend("566")
 
-link.insert(3,"nnenna")
-link.insert(5,"Mmesoma")
+// link.insert(3,"nnenna")
+// link.insert(5,"Mmesoma")
 
-console.log("Before remove",link.printList())
-link.remove(3)
-console.log("After remove Node 3",link.printList())
+// console.log("Before remove",link.printList())
+// link.remove(3)
+// console.log("After remove Node 3",link.printList())
