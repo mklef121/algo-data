@@ -1,6 +1,7 @@
 import {LinkNode} from "../linked-list/linked-list"
+import { StackInterface } from "./stack-interface"
 
-export class Stack{
+export class Stack implements StackInterface{
     public length: number
     top ?: LinkNode
     bottom ?: LinkNode
