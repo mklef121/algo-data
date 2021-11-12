@@ -51,7 +51,20 @@ class BinarySearchTree implements BstInterface {
         return this
     }
     lookup(value: any): TreeNode {
-        throw new Error("Method not implemented.")
+        if (!this.root) return null
+
+        let currentNode  = this.root;
+
+        while (currentNode) {
+            if (value < currentNode.value ) {
+                currentNode = currentNode.left
+            }else if (value > currentNode.value ) {
+                currentNode = currentNode.right
+            }else{
+                break
+            }
+        }
+       return currentNode
     }
 
     // remove
@@ -76,3 +89,8 @@ bst.insert(87)
 .insert(23)
 .insert(25)
 console.log(JSON.stringify(traverse(bst.root)));
+
+const found =  bst.lookup(984)
+
+console.log("\n\n\n",found);
+

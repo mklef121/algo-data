@@ -55,3 +55,8 @@ A BST might have insertions that take a particular order and keep increasing to 
 
 This will in turn form a linked list which can gradually change it's complexity to O(n) instead of O(Log-n). This is a condition
 called **Unbalanced Binary Search Tree**. Insertion, deletion and lookup for unbalanced binary search trees becomes `O(n)`
+
+Two major tree structures(self balancing trees) are used to balance out Binary search threes they are
+
+- AVL trees (Adelson-Velsky and Landis)
+- Red/Black trees
