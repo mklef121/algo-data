@@ -20,3 +20,11 @@ In practice Fibonacci can be used for
 
 The early part of the sequence is `0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89,144, 233, 377, ...`
 
+Sorting Algorithms
+
+- Bubble sort
+- Insertion sort
+- Selection sort 
+- Merge sort
+- Quick sort
+
