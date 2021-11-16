@@ -27,5 +27,25 @@ Sorting Algorithms
 - Selection sort 
 - Merge sort
 - Quick sort
+- Heap sort (Learn about it later)
+
+### When to use which sorting algorithm
+
+1. Insertion Sort: When the list is quite small and list is probably a bit sorted
+2. merge sort: Very good for worst case scenario although uses a lot of space complexity
+3. Quick sort: Uses less space complexity: But when a bad pivot is picked, then uses O(n^2)
 
 
+### Searching algorithm
+
+- Linear search: This takes O(n) complexity since every single item is checked one by one
+- Binary search: This uses the idea of divide and conquer by dividing the list or tree from left or right of a selected item and discarding the smaller part until the answer is found. This works usually for sorted lists or tree data structure.
+
+### Examples of Binary Search algorithm
+
+- Breadth first search
+- Dept first search
+
+
+Dept first search has different ways of searching 
+The are  

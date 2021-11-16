@@ -68,7 +68,139 @@ class BinarySearchTree implements BstInterface {
     }
 
     // remove
+
+    breathFirstSearch(value: any): TreeNode | null {
+        let queue: TreeNode[] = [this.root]
+        let result = []
+        while (queue.length > 0) {
+
+            let currentNode = queue.shift();
+            // console.log(currentNode.value);
+            result.push(currentNode)
+            // if (currentNode.value == value) {
+            //     queue = []
+            //     return currentNode
+            // }
+
+            if (currentNode.left) {
+                queue.push(currentNode.left)
+            }
+
+            if (currentNode.right) {
+               queue.push(currentNode.right) 
+            }
+
+        }
+        return null
+        
+    }
+//             56
+//       45          87
+//     24  48     70   98
+//   23  25
+    BFSrecursion(){
+        // We are expected to get
+        // [56,45,87,24,48,70,98,23,25]
+        let queue = [this.root]
+        
+        function recurseBFS(result: any[]){
+
+            if (!queue.length) {
+
+                return result
+            }
+            let current = queue.shift();
+           
+            result.push(current.value);
+            
+            if (current.left) {
+                queue.push(current.left)
+            }
+
+            if (current.right) {
+                queue.push(current.right)
+            }
+
+            return recurseBFS(result)
+        }
+
+        return recurseBFS([])
+    }
+
+    depthFirstSearchInOrder(){
+        // [56,45,24,23,25,48,87,70,98]
+
+        return inOrderTransverse(this.root, [])
+    }
+
+    depthFirstSearchPreOrder(){
+        //Expected 
+        // [56,45,24,23,25,48,87,70,98]
+        let result = []
+        return preOrderTransverse(this.root, result)
+        // return result 
+    }
+
+    depthFirstSearchInPostOrder(){
+
+        return postOrderTransverse(this.root, [])
+    }
 }
+
+function preOrderTransverse(current: TreeNode, TransVersedlist: any[]): any[]{
+
+    TransVersedlist.push(current.value)
+    if (current.left) { 
+        inOrderTransverse(current.left, TransVersedlist)
+    }
+    
+    if (current.right) {
+        inOrderTransverse(current.right, TransVersedlist)
+    }
+
+    return TransVersedlist
+   
+}
+
+
+function inOrderTransverse(current: TreeNode, TransVersedlist: any[]): any[]{
+    //Idea is to have something like this
+    // [23,24,25,45,48,56,70,87,98]
+     if (current.left) {
+        inOrderTransverse(current.left, TransVersedlist)
+     }
+
+     TransVersedlist.push(current.value)
+
+     if (current.right) {
+        inOrderTransverse(current.right, TransVersedlist)
+     }
+
+     return TransVersedlist
+}
+
+function postOrderTransverse(current: TreeNode, TransVersedlist: any[]): any[]{
+    // The idea is to have a final looking thus
+    // [23,25,24,48,45,70,98,87,56]
+    if (current.left) {
+        postOrderTransverse(current.left, TransVersedlist)
+    }
+
+    if (current.right) {
+        postOrderTransverse(current.right,TransVersedlist)
+    }
+
+    TransVersedlist.push(current.value)
+
+    return TransVersedlist
+}
+
+//Our BST looks like this
+
+//             56
+//       45          87
+//     24  48     70   98
+//   23  25
 
 function traverse(node) {
     const tree = { value: node.value, left:null, right:null};
@@ -93,4 +225,15 @@ console.log(JSON.stringify(traverse(bst.root)));
 const found =  bst.lookup(984)
 
 console.log("\n\n\n",found);
+
+console.log("\n\n","BFS result \n", bst.breathFirstSearch(70));
+ 
+console.log("\n\n",bst.BFSrecursion());
+
+//Our BST looks like this
+
+//             56
+//       45          87
+//     24  48     70   98
+//   23  25
 

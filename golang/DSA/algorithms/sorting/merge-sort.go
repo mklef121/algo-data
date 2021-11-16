@@ -4,10 +4,7 @@ import "fmt"
 
 func main() {
 
-	// left := []int{1, 2, 5, 6, 8}
-	// right := []int{0, 3, 4, 7, 9, 20}
 	toSortArray := []int{89, 55, 0, 3, 4, 1, 2, 5, 1000, 6, 8, 7, 9, 20}
-	// fmt.Println(mergeTwoOrdered(left, right))
 
 	fmt.Println(mergeSort(toSortArray))
 }
