@@ -49,3 +49,11 @@ Sorting Algorithms
 
 Dept first search has different ways of searching 
 The are  
+- preOrder
+- inOrder
+- postOrder
+
+
+
+### Dynamic Programming
+A technique used for algorithm optimization where a value may be cached so if same step is retaken again, It will not have to be repeated.
