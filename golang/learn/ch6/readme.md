@@ -1,8 +1,7 @@
 > This chapter teaches you about systems programming in Go. Systems programming involves working with files and directories, process control, signal handling, network programming, system files, configuration files, and file input and output (I/O).
 
 
-Remember that UNIX considers everything, even a printer or your mouse, as a
-file. UNIX uses **file descriptors**, which are **positive integer** values, as an internal representation for accessing open files, which is much prettier than using long paths.
+Remember that UNIX considers everything, even a printer or your mouse, as a file. UNIX uses **file descriptors**, which are **positive integer** values, as an internal representation for accessing open files, which is much prettier than using long paths.
 
 ### stdin, stdout, and stderr
 Every UNIX operating system has three files open all the time for its processes.
@@ -56,4 +55,42 @@ A **channel** in Go is a mechanism that among other things allows goroutines to 
 
 
 Look up [Here to see a list of signals](http://www.math.stonybrook.edu/~ccc/dfc/dfc/signals.html)
+
+
+## File I/O
+
+Remember we said earlier that unix treats everything (I/O) as a file and attaches it a positive interger to represent it.
+Go has two major interfaces for reading and writing to files. They are  `io.Reader` and `io.Writer`.
+These two interfaces are the basis of file I/O in Go
+
+ The definition of the io.Reader interface is the following:
+```go
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+
+// The Read() method takes a byte slice as input, which is going to be filled with data up to its length, and returns the number of bytes read as well as an error variable.
+```
+
+The definition of the io.Writer interface is the following:
+
+```go
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+
+//The Write() method takes a byte slice, which contains the data that you want to write, as input and returns the number of bytes written and an error variable
+```
+
+### Buffered and unbuffered file I/O
+
+Buffered file I/O happens when there is a buffer for temporarily storing data before reading data or writing data. Thus, instead of reading a file byte by byte, you read many bytes at once. You put the data in a buffer and wait for someone to read it in the desired way.
+
+Unbuffered file I/O happens when there is no buffer to temporarily store data before actually reading or writing it—this can affect the performance of your programs.
+
+The next question that you might ask is how to decide **when to use buffered and when to use unbuffered file I/O**. 
+
+* When dealing with critical data, unbuffered file I/O is generally a better choice because buffered reads might result in out-of-
+date data and buffered writes might result in data loss when the power of your computer is interrupted.
+* However, keep in mind that buffered readers can also improve performance by reducing the number of system calls needed to read from a file or socket.
 
