@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	fmt.Println("")
 	buffer := []byte("Data to write\n")
 	f1, err := os.Create("./f1.txt")
 
