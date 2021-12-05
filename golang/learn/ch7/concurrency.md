@@ -22,9 +22,9 @@ So, a process carries with it additional resources such as memory, opened file d
 
 **A thread** is a smaller and lighter entity than a process. Processes consist of one or more threads that have their own flow of control and stack
 
-**A goroutine** is the minimum Go entity that can be executed concurrently. The use of the word minimum is very important here, as goroutines are not autonomous entities like UNIX processes—goroutines live in OS threads that live in OS processes.
+**A goroutine** is the minimum Go entity that can be executed concurrently. The use of the word minimum is very important here, as goroutines are not autonomous entities like UNIX processes  —goroutines live in OS threads that live in OS processes.
 
-The good thing is that goroutines are lighter than threads, which, in turn, are lighter than processes—running thousands or hundreds of thousands of goroutines on a single machine is not a problem.
+The good thing is that goroutines are lighter than threads, which, in turn, are lighter than processes  —running thousands or hundreds of thousands of goroutines on a single machine is not a problem.
 
 
 
@@ -50,3 +50,96 @@ These goroutines have several states, they are
 - Blocked — Goroutines waiting for some conditions (e.g. blocked on a channel, syscall, mutex, etc.)
 
 So a **Go Runtime Scheduler** manages these goroutines at various states, by Multiplexing N Goroutine to M Kernel Thread.
+
+> Be aware that as the Go scheduler only deals with the goroutines of a single program, its operation is much simpler, cheaper, and faster than the operation of the kernel scheduler.
+
+Note: For Go to be able to implement concurrency, It uses the **fork-join concurrency model**
+
+### What is the fork-join concurrency model
+
+In parallel computing, the fork–join model is a way of setting up and executing parallel programs, such that `execution` branches off in parallel at designated `points` in the program, to "join" (merge) at a subsequent point and **resume sequential execution**.
+
+So when we run a go program, Go can start a child branch at any point of a program. When this child branch is done running, It can join it's parent at a specified "Join  Point".
+
+```pseudocode
+    solve(problem):
+        if problem is small enough:
+            solve problem directly (sequential algorithm)
+        else:
+            for part in subdivide(problem)
+                fork subtask to solve(part)  //The recursive part a program is forked
+            join all subtasks spawned in previous loop //The join part where the child has to re-connect to
+            return combined results
+```
+
+The Go scheduler works using three main kinds of entities: 
+1. OS threads (M), which are related to the OS in use.
+2. goroutines (G).
+3. logical processors (P). 
+The number of processors that can be used by a Go program is specified by the value of the GOMAXPROCS environment variable—at any given time, there are at most `${GOMAXPROCS}` processors.
+
+### The GOMAXPROCS environment variable
+The GOMAXPROCS environment variable allows you to set the number of OS threads (CPUs) that can execute user-level Go code simultaneously.
+
+> The default value of GOMAXPROCS should be the number of logical cores available in your machine. 
+
+
+### Concurrency and parallelism
+
+Concurrency is not Parallelism
+
+**Parallelism** is the simultaneous execution of multiple entities of some kind, 
+whereas **concurrency** is a way of structuring your components so that they can be executed independently when possible
+
+Let's describe better this using [this article from toptal](https://www.toptal.com/software/introduction-to-concurrent-programming)
+
+Concurrency is when you are doing more than one thing at the same time. This should not be confused with parallelism, concurrency is when multiple sequences of operations are run in overlapping periods of time.
+
+In case the above definitions are still confusing, Look at it this way 
+
+**concurrent programming** is a technique in which two or more processes start, run in an interleaved fashion through **context switching** and complete in an overlapping time period by managing access to shared resources e.g. on a single core of CPU.
+
+This doesn’t necessarily mean that multiple processes will be running at the same instant – even if the results might make it seem like it.
+
+### What is the difference between concurrency and parallelism ?
+
+In parallel programming, parallel processing is achieved through hardware parallelism e.g. executing two processes on two separate CPU cores simultaneously.
+
+
+To practically explain this, Let's use a bar where there are two queue of bar attenders wanting to get a cup of coffee
+
+- **Concurrent:** Two Queues & a Single Espresso machine. 
+![Two queues with a single expresso machine](./concurrent.svg "Two queues concurrently accessing the coffee in an ovalapping manner")
+- **Parallel:** Two Queues & Two Espresso machines.
+![Each queues has it's own dedicated Espresso machine](./parallel.svg "An Espresso machine deligated to each queue")
+
+
+### Goroutines
+
+Remember from earlier definitions that a goroutine is the minimum Go entity that can be executed concurrently
+
+You can define, create, and execute a new goroutine using the go keyword followed by a function name or an anonymous function.
+
+ The go keyword makes the function call **return immediately**, while the function starts running in the **background** as a goroutine and the rest of the program continues its execution.
+
+> You cannot control or make any assumptions about the order in which your goroutines are going to be executed because that depends on the scheduler of the OS, the Go scheduler, and the load of the OS.
+
+```go
+func printme(x int) {
+        fmt.Printf("%d ", x)
+}
+
+func main() {
+    //Running an anonymous go routine
+    go func(x int) {
+        fmt.Printf("%d ", x)
+    }(10) //pass a parameter to the function
+
+    // This is how you execute a function as a goroutine.
+    go printme(15)
+
+    // the purpose of the time.Sleep() call is to make the go program wait for it's goroutines to end before exiting
+    time.Sleep(time.Second)
+    fmt.Println("Exiting...")
+}
+```
