@@ -143,3 +143,62 @@ func main() {
     fmt.Println("Exiting...")
 }
 ```
+
+### Channels
+
+A channel is a communication mechanism that, among other things, allows goroutines to exchange data.
+
+Firstly, each channel allows the exchange of a **particular data type**, which is also called the **element type** of the channel, and secondly, for a channel to operate properly, you need someone to receive what is sent via the channel.
+
+**A pipeline** is a virtual method for connecting goroutines and channels so that the output of one goroutine becomes the input of another goroutine using channels to transfer your data.
+
+### Race conditions
+A data race condition is a situation where two or more running elements, such as threads and goroutines, try to take control of or modify a shared resource or shared variable of a program.
+A data race occurs when two or more instructions access the same memory address, where more than one of them performs a write (change) operation.
+
+for instance imagine this: 
+
+```go
+package main
+
+func printer(ch chan bool) {
+	ch <- true
+}
+
+func main() {
+	// This is an unbuffered channel
+	var ch chan bool = make(chan bool)
+	for i := 0; i < 5; i++ {
+		go printer(ch)
+	}
+}
+
+// The issuee with this implementation here is that the same channel is been written to by several goroutines
+// This is called Race Condition
+//If a litener mistakenly closes the channel, there might be a panick.
+```
+
+To fix the above issue, we can re-write this to be
+
+
+```go
+func printer(ch chan<- bool, times int) {
+	for i := 0; i < times; i++ {
+		ch <- true
+	}
+	close(ch)
+}
+
+func main() {
+	// This is an unbuffered channel
+	var ch chan bool = make(chan bool)
+
+	// Write 5 values to channel with a single goroutine
+	go printer(ch, 5)
+
+}
+```
+
+### The select keyword
+
+The select keyword is really important because it allows you to listen to multiple channels at the same time.
