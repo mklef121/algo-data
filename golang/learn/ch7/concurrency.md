@@ -202,3 +202,23 @@ func main() {
 ### The select keyword
 
 The select keyword is really important because it allows you to listen to multiple channels at the same time.
+
+
+### Worker pools
+A worker pool is a set of threads that process jobs assigned to them. 
+The Apache web server and the net/http package of Go more or less work this way: the main process accepts all incoming requests, which are forwarded to worker processes to get served. 
+Once a worker process has finished its job, it is ready to serve a new client. 
+
+
+### Shared memory and shared variables
+
+ A mutex variable, which is an abbreviation of **mutual exclusion variable**, is mainly used for thread synchronization and for protecting shared data when multiple writes can occur at the same time. 
+A mutex works like a buffered channel with a capacity of one, which allows at most one goroutine to access a shared variable at any given time. 
+
+This means that there is no way for two or more goroutines to be able to update that variable simultaneously. Go offers the sync.Mutex and sync.RWMutex data types.
+
+
+### The atomic package
+An atomic operation is an operation that is completed in a single step relative to other threads or, 
+in this case, to other goroutines. This means that an atomic operation cannot be interrupted in the middle of it. 
+The Go Standard library offers the atomic package, which, in some simple cases, can help you to avoid using a mutex.
