@@ -228,6 +228,10 @@ use `go get rsc.io/sampler` or `go get rsc.io/sampler@v1.3.1`
 
 use `go list -m all` to list all depenedency in your project
 
+use `go mod tidy` to clean up unused depenedencies
+
+
+
 
 
 
