@@ -14,6 +14,9 @@ func myHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func timeHandler(w http.ResponseWriter, r *http.Request) {
+	// var ctx context.Context
+	// context.TODO()
+	// context.WithCancel()
 	t := time.Now().Format(time.RFC1123)
 	Body := "The current time is:"
 	fmt.Fprintf(w, "<h1 align=\"center\">%s</h1>", Body)
