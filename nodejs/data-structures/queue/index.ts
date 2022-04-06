@@ -22,7 +22,8 @@ class Queue implements QueueInterface {
             this.first = node
             this.last = node
         }else{
-            this.last.setBehind(node)
+            node.setBehind(this.last)
+            this.last.setNext(node)
             this.last = node
         }
 
