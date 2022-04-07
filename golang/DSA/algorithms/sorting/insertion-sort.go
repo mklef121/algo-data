@@ -17,6 +17,12 @@ func insertionSort(data []int) {
 		current := data[i]
 		j := i - 1
 
+		/*
+
+			while(j >= 0 && current < data[j]){
+
+			}
+		*/
 		for j >= 0 && current < data[j] {
 			data[j+1] = data[j]
 

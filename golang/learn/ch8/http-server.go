@@ -13,10 +13,24 @@ func myHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Served: %s\n", r.Host)
 }
 
+func Solution(A []int) int {
+	// write your code in Go 1.4
+	return 1
+}
+
 func timeHandler(w http.ResponseWriter, r *http.Request) {
 	// var ctx context.Context
 	// context.TODO()
 	// context.WithCancel()
+	// mapKeep:= make(map[int]bool)
+
+	// me, her := mapKeep[5]
+
+	if true {
+
+	} else if false {
+
+	}
 	t := time.Now().Format(time.RFC1123)
 	Body := "The current time is:"
 	fmt.Fprintf(w, "<h1 align=\"center\">%s</h1>", Body)
