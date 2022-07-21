@@ -185,6 +185,7 @@ func PrintArea(s Shaper) {
 func main(){
    var a Shaper
    a = Circle{Radius: 10}
+   PrintArea(a)
 }
 
 ```

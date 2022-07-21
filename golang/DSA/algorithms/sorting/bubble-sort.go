@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 var sortArray = []int{99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0}
 
@@ -22,4 +24,5 @@ func bubbleSort(data []int) {
 			}
 		}
 	}
+
 }
