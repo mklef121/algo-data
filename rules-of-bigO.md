@@ -1,3 +1,20 @@
+### What is Big O?
+
+Big O notation is a system for measuring the rate of growth of an algorithm. Big O notation mathematically describes the complexity of an algorithm in terms of time and space.
+
+The O is short for “Order of”. So, if we’re discussing an algorithm with O(log N), we say its order of, or rate of growth, is “log n”, or logarithmic complexity.
+
+### O(log n) 
+
+Logarithms allow us to reverse engineer a power. (Like Kryptonite!) They are the inverse operation of exponentiation.
+We can think of logarithms as the opposite operation of exponentiation.
+
+remember 
+since 1000 = 10 × 10 × 10 = 103
+but 
+log10 (1000) = 3
+The logarithm of x to base b is denoted as logb (x), or without parentheses, logb x
+
 
 #### Rules to define the Complexity of BigO
 
@@ -107,3 +124,66 @@ func printNumbersAndPairSums(arr []int){
 
 ```
 Looking at this now, we will think its Big O will be BigO(n + n^2), but it's actuallly **BigO(n^2)** because it we dropped the non dominant notation
+
+##### Calculating O(log n): Binary Search
+
+The classic example used to illustrate O(log n) is binary search. Binary search is an algorithm that finds the location of an argument in a sorted series by dividing the input in half with each iteration.
+
+EXAMPLE
+
+Let’s say we are given the following array and asked to find the position of the number `512`:
+
+```ts
+const powers = [1, 2, 4, 8 ,16, 32, 64, 128, 256, 512];
+```
+
+First, let’s review the brute force solution to this problem.
+
+```ts
+const bruteSearch = (arr, num) => {
+  
+   for (let i = 0; i < arr.length; i++) {
+       if (arr[i] === num) {
+           return `Found ${num} at ${i}`;
+       }
+   }
+}
+```
+
+What’s the Big O of bruteSearch()?
+
+`O(n)`
+
+Can we do better?
+
+Definitely, Lets Use Binary Search
+
+```ts
+const powers = [1, 2, 4, 8 ,16, 32, 64, 128, 256, 512];
+// find Position of 512
+const binarySearch = (arr, num) => {
+ 
+   let startIndex = 0;
+   let endIndex = (arr.length)-1;
+//    0, 9
+// 4.5 //4
+// 5, 9 // 14/2 = 7
+// 8, 9 // 17/2 
+  
+   while (startIndex <= endIndex){
+      
+       let pivot = Math.floor((startIndex + endIndex)/2);
+ 
+       if (arr[pivot] === num){
+            return `Found ${num} at ${pivot}`;
+       } else if (arr[pivot] < num){
+           startIndex = pivot + 1;
+       } else {
+           endIndex = pivot - 1;
+       }
+   }
+   return false;
+}
+```
+
+
