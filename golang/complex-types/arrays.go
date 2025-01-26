@@ -11,7 +11,7 @@ import (
 // [<size>]<type>
 //For example, [10]int is an array of size 10 that contains ints,
 // If your definition didn't have the size, it would not be an array – it'd be a slice
-func main() {
+func main1() {
 	//This size makes it an ARRAY
 	array := []int{1, 2, 3, 4}
 

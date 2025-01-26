@@ -12,7 +12,7 @@ Which properties get updated depends on whether the hidden array is full or not.
 */
 
 // you can create new slices derived from the contents of arrays and slices. The most common notation is [<low>:<high>].
-func main() {
+func main2() {
 	long := []int{8, 3, 5, 3, 89, 4, 6, 7, 87, 8}
 
 	fmt.Println(long[2:]) //prints from second index to last
