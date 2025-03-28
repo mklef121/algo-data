@@ -83,7 +83,7 @@ func HttpRequestZen(method, url string, body interface{}) ([]byte, error) {
 	// Set headers
 	req.Header.Set("Content-Type", "application/json")
 
-	req.Header.Set("Authorization", "Basic YWRlZ2JpZWZvbGFkb3lpbkBnbWFpbC5jb20vdG9rZW46VWMzWkoyYml3N2h1VVpPSEJNTjNBWDVmT25zVEhTSmc3SXBKY1pJaA==")
+	req.Header.Set("Authorization", "Basic auth")
 
 	// Send request
 	resp, err := client.Do(req)
@@ -351,17 +351,6 @@ func TrimMapValues(input map[string]string) map[string]string {
 		trimmedMap[trimmedKey] = strings.TrimSpace(strings.Trim(value, bom))
 	}
 	return trimmedMap
-}
-
-// processChunk processes a chunk of data
-func processChunk(chunk []int, chunkIndex int, start, stop int) {
-	fmt.Printf("Processing chunk %d with %d elements. starts at %d, stops at %d \n \n", chunkIndex, len(chunk), start, stop)
-	// Simulate processing (e.g., summing elements, transformation, etc.)
-	sum := 0
-	for _, num := range chunk {
-		sum += num
-	}
-	fmt.Printf("Chunk %d sum: %d. started at %d, stopeed at %d \n", chunkIndex, sum, start, stop)
 }
 
 func main() {
