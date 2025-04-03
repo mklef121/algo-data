@@ -16,30 +16,28 @@ import "strconv"
 
 func Solution(N int) int {
     // Implement your solution here
-    binaryString := strconv.FormatInt(int64(N), 2)
-    inprogress := false
-    largest := 0
-    count := 0
+    numbs := strconv.FormatInt(int64(N), 2)
+    var (
+        count int
+        max int
+        startCount bool
+    )
 
-    for i := 0; i < len(binaryString); i++ {
-        if string(binaryString[i]) == "1" {
-            if inprogress {
-                inprogress = false
-
-                if count > largest {
-                    largest = count
-                }
-                count = 0
+    for i := 0; i < len(numbs); i++{
+        val := string(numbs[i])
+        
+        if val == "1" {
+            if count > max {
+                max = count
             }
-        }else {
-            // current item is "0"
-           inprogress = true
-           count++
-
+            count = 0
+            startCount = true
+        }else if val == "0" && startCount {
+            count++
         }
     }
 
-    return largest
+    return max
 }
 
 ```

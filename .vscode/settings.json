@@ -1,6 +1,8 @@
 {
     "rust-analyzer.linkedProjects": [
         "./rust/learn/ch1/hello_cargo/Cargo.toml",
-        "./rust/learn/ch2/guessing_game/Cargo.toml"
+        "./rust/learn/ch2/guessing_game/Cargo.toml",
+        "./rust/learn/ch3/Cargo.toml",
+        "./rust/learn/ch4/Cargo.toml"
     ]
 }
