@@ -16,6 +16,14 @@ rather, they just have the types of the fields.
 struct Color(i32, i32, i32, f64);
 struct Point(i32, i32, i32);
 
+struct QuitMessage; // unit struct
+struct MoveMessage {
+    x: i32,
+    y: i32,
+}
+struct WriteMessage(String); // tuple struct
+struct ChangeColorMessage(i32, i32, i32); // tuple struct
+
 fn main() {
     let mut user1 = User {
         active: true,
@@ -34,7 +42,7 @@ fn main() {
     };
 
     let us2 = build_user(user2.email, user2.username);
-    println!("First Print USER -> {:#?}", us2);
+    println!("First Print USER -> {:?}", us2);
 
     // build_user_short(user1.email, user1.username);
     let _black = Color(0, 0, 0, 3.56);
@@ -76,6 +84,11 @@ fn main() {
 
     let rect4 = Rectangle::square(3);
 
+    let val = WriteMessage(String::from("stand tall"));
+
+    // the value of a tuple struct can also be accessed this way
+    let _he = val.0;
+
     println!(
         "Show Rect created from static associated functions {:#?}",
         rect4
@@ -109,6 +122,7 @@ fn area_tuples(dimensions: (u32, u32)) -> u32 {
     dimensions.0 * dimensions.1
 }
 
+// #[derive] is an `outer attribute` used to automatically implement common traits for a struct or enum.
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
