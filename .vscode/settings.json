@@ -9,5 +9,6 @@
         "./rust/learn/ch7/module_test/Cargo.toml",
         "./rust/learn/ch7/restaurant/Cargo.toml",
         "./rust/learn/ch7/restaurant-file/Cargo.toml",
+        "./rust/learn/ch8/Cargo.toml",
     ]
 }
