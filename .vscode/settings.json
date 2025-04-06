@@ -5,6 +5,9 @@
         "./rust/learn/ch3/Cargo.toml",
         "./rust/learn/ch4/Cargo.toml",
         "./rust/learn/ch5/Cargo.toml",
-        "./rust/learn/ch6/Cargo.toml"
+        "./rust/learn/ch6/Cargo.toml",
+        "./rust/learn/ch7/module_test/Cargo.toml",
+        "./rust/learn/ch7/restaurant/Cargo.toml",
+        "./rust/learn/ch7/restaurant-file/Cargo.toml",
     ]
 }
