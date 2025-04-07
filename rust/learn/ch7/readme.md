@@ -72,3 +72,5 @@ A path can take two forms:
 - A *relative path* starts from the current module and uses self, super, or an identifier in the current module. e.g `front_of_house::hosting::add_to_waitlist();`
 
 If you want to make an item like a function or struct private, you put it in a module.
+
+To learn more, watch this video https://www.youtube.com/watch?v=969j0qnJGi8

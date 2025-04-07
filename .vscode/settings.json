@@ -10,6 +10,7 @@
         "./rust/learn/ch7/restaurant/Cargo.toml",
         "./rust/learn/ch7/restaurant-file/Cargo.toml",
         "./rust/learn/ch8/Cargo.toml",
-        "./rust/learn/ch9/Cargo.toml"
+        "./rust/learn/ch9/Cargo.toml",
+        "./rust/learn/ch10/Cargo.toml",
     ]
 }
