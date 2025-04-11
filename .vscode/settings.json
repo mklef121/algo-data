@@ -13,5 +13,6 @@
         "./rust/learn/ch9/Cargo.toml",
         "./rust/learn/ch10/Cargo.toml",
         "./rust/learn/ch11/Cargo.toml",
+        "./rust/learn/ch12/Cargo.toml",
     ]
 }
