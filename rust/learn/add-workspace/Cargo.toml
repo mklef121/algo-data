@@ -1,0 +1,5 @@
+[workspace]
+# We also make a point to use the latest and greatest version of Cargo’s resolver algorithm 
+# in our workspace by setting the resolver to "2"
+resolver = "2"
+members = [ "add_one","adder"]

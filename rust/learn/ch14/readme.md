@@ -52,3 +52,15 @@ Doc comments starting with `//!` document the *enclosing* item (crate or module)
 /// Adds one to the number given.
 pub fn add_one(x: i32) -> i32
 ```
+
+to read more about publishing a crate, read on https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html
+
+
+### Cargo Workspaces
+Cargo offers a feature called workspaces that can help manage multiple related packages that are developed in tandem. As your project develops, you might find that the library crate continues to get bigger and you want to split your package further into multiple library crates. 
+
+A workspace in Rust is a collection of packages that share the same `Cargo.lock` and output directory. It helps organize related crates within a single project. For example, you can create a workspace with one binary crate (the main app) and two library crates (e.g., `add_one` and `add_two`), where the binary depends on both libraries. This setup keeps the project modular and maintainable.
+
+For entire doucmentation on workspaces look at https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html
+
+also look up the  [workspace folder](../add-workspace/)
