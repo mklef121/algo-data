@@ -18,5 +18,6 @@
         "./rust/learn/ch14/Cargo.toml",
         "./rust/learn/add-workspace/Cargo.toml",
         "./rust/learn/ch15/Cargo.toml",
+        "./rust/learn/ch16/Cargo.toml",
     ]
 }
